@@ -1,0 +1,36 @@
+<form>
+    <label>Email:</label>
+    <input type="email" required>
+    <label>Password:</label>
+    <input type="password" required>
+    <button type="submit">Login</button>
+    <p>Don't have an account? <a href="register.html">Register</a></p>
+    {% extends 'base.html' %}
+    
+    {% block main %}
+    <section class="login">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+            <div class="mb-4">
+                {{ field.errors }}
+                {{ field }}
+            </div>
+            {% endfor %}                   
+            <div class="d-flex justify-content-center">
+                <button type="submit"
+                class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">
+                Kirish
+            </button>
+        </form>
+            </div>
+            <p class="text-center text-muted mt-5 mb-0">
+            Hisobingiz yo'qmi? 
+            <a href="{% url 'register' %}" class="fw-bold text-body">
+            <u>Ro'yxatdan o'tish</u>
+            </a>
+        </p>
+                                
+    </section>
+{% endblock main %}
