@@ -10,19 +10,12 @@ class MyUserAdmin(admin.ModelAdmin):
     list_display = ('id', 'username', 'first_name', 'last_name')
     list_display_links = ('id', 'username')
 
-class CategoryInline(admin.TabularInline):
-    model = Category
-    extra = 0
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'slug')
+    list_display_links = ('name',)
     prepopulated_fields = {'slug': ('name',)}
 
-@admin.register(Department)
-class DepartamentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-    list_display_links = ('name',)
-    inlines = [
-        CategoryInline
-    ]
-    prepopulated_fields = {'slug': ('name',)}
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage

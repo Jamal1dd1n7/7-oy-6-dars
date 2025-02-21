@@ -1,3 +1,4 @@
+import random
 # Imports:
 # Messages: template ga xabar jo`natish uchun ishlatiladi
 # ( message.success(request, 'Amal muvaffaqiyatli amalga oshirildi'));
@@ -73,18 +74,48 @@ from .forms import *
 # Message(send_message)
 
 # Home
+
+
+# HomeView - Asosiy sahifa uchun tasodifiy mahsulotlar chiqarish
 class HomeView(ListView):
-    template_name = 'project1/detail_templates/intex.html'
     model = Product
-    # def get_queryset(self):
-    #     products = Product.objects.all().select_related('category') 
-    #     return products
-    paginate_by = 10
+    template_name = 'project1/detail_templates/intex.html'
     context_object_name = "products"
+    paginate_by = 10
+
     extra_context = {
         "title": "Home"
     }
-    
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+# Products
+class ProductsView(ListView):
+    template_name = 'project1/products.html'
+    context_object_name = 'products'
+    paginate_by = 10
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        if category_id:
+            return Product.objects.filter(category_id=category_id)  
+        return Product.objects.all()  
+    extra_context = {
+        "title": "Products"
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()  
+        return context
+# ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+    
+# Product detail  
+class ProductDetail(DetailView):
+    model = Product
+    template_name = 'project1/detail_templates/product.html'
+    context_object_name = 'product'
+
+    def get_object(self):
+        product_slug = self.kwargs.get('product_slug')
+        return get_object_or_404(Product, slug=product_slug)

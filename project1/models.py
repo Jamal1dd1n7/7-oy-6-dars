@@ -13,23 +13,7 @@ class MyUser(AbstractUser):
     class Meta:
         verbose_name = "Foydalanuvchi "
         verbose_name_plural = "Foydalanuvchilar"
-        ordering = ['id'] 
-
-# Department model:
-class Department(models.Model):
-    # Slug model:
-    slug = models.SlugField(max_length=150, unique=True)
-    # Title model: 
-    name = models.CharField(max_length=255)
-
-        
-    def __str__(self):
-        return self.name
-    
-    class Meta:
-        verbose_name = "Turkum"
-        verbose_name_plural = "Turkumlar"
-        ordering = ['-id']
+        ordering = ['id']
 
 # ------------------------------------------------------------------------------------------------------------------------
 
@@ -39,8 +23,6 @@ class Category(models.Model):
     slug = models.SlugField(max_length=150, unique=True)
     # Name model: Kategoriya nomini kiritish uchun model. Maksimal uzunligi 255 ta simvol;
     name = models.CharField(max_length=255)
-    # Department model: Kategoriyani turkumga ulash uchun model;
-    department = models.ForeignKey('Department', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
